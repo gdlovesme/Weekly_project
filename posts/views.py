@@ -1,13 +1,15 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import generics
 
 from .models import Post
 from .serializers import PostSerializer
 
 
-@api_view(['GET'])
-def posts(request):
-    posts = Post.objects.all()
-    serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data)
+class PostListView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+
+class PostCreateView(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
